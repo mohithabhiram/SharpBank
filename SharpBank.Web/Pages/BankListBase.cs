@@ -19,10 +19,10 @@ namespace SharpBank.Web.Pages
         private void LoadBanks() 
         {
             System.Threading.Thread.Sleep(4000);
-            Bank b1 = new Bank("Yaxis", "001");
-            Bank b2 = new Bank("YesBI", "002");
-            Bank b3 = new Bank("FDHC", "003");
-            Bank b4 = new Bank("YCYCY", "004");
+            Bank b1 = new Bank { BankName = "Yaxis", IFSC = "001" };
+            Bank b2 = new Bank { BankName = "YesBI", IFSC = "002" };
+            Bank b3 = new Bank { BankName = "FDHC", IFSC = "003" };
+            Bank b4 = new Bank { BankName = "YCYCY", IFSC = "004" };
             Banks = new List<Bank> { b1, b2, b3, b4 };
         }
     }
