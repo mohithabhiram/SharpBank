@@ -1,7 +1,23 @@
 ﻿@page "/"
+@inherits BankListBase
+<h3>Banks List</h3>
+@if (Banks == null)
+{
+    <div class="loader">Loading...</div>
+}
+else
+{
+    <div class="card-deck">
 
-<h3>BankList</h3>
+        @foreach (var bank in Banks)
+        {
+            <div class="card m-3" style="min-width: 18rem; max-width:30.5%">
+                <div class="card-header">
+                    <h3>@bank.BankName</h3>
+                </div>
+                <img class="card-img-top imageThumbnail" src="/css/images/midwicket.png" />
+            </div>
+        }
 
-@code {
-
+    </div>
 }
