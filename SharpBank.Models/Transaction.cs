@@ -25,14 +25,8 @@ namespace SharpBank.Models
             return res;
         }
 
-        public Transaction(string transactionID, string senderIFSC, string senderAccount,  string recepientIFSC, string recepientAccount, decimal amount)
+        public Transaction()
         {
-            TransactionID = transactionID;
-            RecepientIFSC = recepientIFSC;
-            SenderIFSC = senderIFSC;
-            RecepientAccount = recepientAccount;
-            SenderAccount = senderAccount;
-            Amount = amount;
         }
     }
 }

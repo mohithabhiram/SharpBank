@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,19 +16,18 @@ namespace SharpBank.Models
             set { bankName = value; }
         }
         private string ifsc;
+        [Key]
         public string IFSC
         {
-            get { return ifsc; }
-            set { ifsc = value; }
+            get;
+            set;
         }
         private Dictionary<string, Account> accounts;
         
 
-        public Bank(string name,string code)
+        public Bank()
         {
-            this.bankName = name;
-            this.ifsc = code;
-            accounts = new Dictionary<string, Account>();
+            
         }
 
         public Account getAccount(string id)

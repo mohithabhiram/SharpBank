@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +10,11 @@ namespace SharpBank.Models
     public class Account
     {
         private string accountNumber;
+        [Key]
         public string AccountNumber 
         {
-            get { return accountNumber; }
-            set { accountNumber = value; }
+            get;
+            set;
         }
         private string userName;
         public string UserName
@@ -32,12 +34,8 @@ namespace SharpBank.Models
             get { return balance; }
             set { balance = value; }
         }
-        public Account(string id,string name,string pass)
+        public Account()
         {
-            this.accountNumber = id;
-            this.password = pass;
-            this.userName = name;
-            balance = 0.0m;
         }
     }
 }
