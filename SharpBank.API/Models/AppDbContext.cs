@@ -14,8 +14,8 @@ namespace SharpBank.API.Models
         }
 
         public DbSet<Bank> Banks { get; set; }
-        public DbSet<Bank> Accounts { get; set; }
-        public DbSet<Bank> Transactions { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
