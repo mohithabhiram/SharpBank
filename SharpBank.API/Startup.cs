@@ -29,6 +29,11 @@ namespace SharpBank.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
+
+            services.AddScoped<IAccountServices, AccountServices>();
+            services.AddScoped<ITransactionServices, TransactionServices>();
+            services.AddScoped<IBankServices, BankServices>();
+            
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
