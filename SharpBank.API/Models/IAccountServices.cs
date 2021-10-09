@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharpBank.API.Models
 {
-    interface IAccountServices
+    public interface IAccountServices
     {
         Task<IEnumerable<Account>> GetAccounts();
         Task<Account> GetAccount(string AccountNumber);
