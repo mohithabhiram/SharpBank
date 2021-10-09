@@ -16,14 +16,14 @@ namespace SharpBank.API.Models
             this.appDbContext = appDbContext;
         }
 
-        public Bank GetBank(string IFSC)
+        public async Task<Bank> GetBank(string IFSC)
         {
-            return appDbContext.Banks.FirstOrDefault(b=> b.IFSC == IFSC);
+            return await appDbContext.Banks.FirstOrDefaultAsync(b=> b.IFSC == IFSC);
         }
 
-        public IEnumerable<Bank> GetBanks()
+        public async Task<IEnumerable<Bank>> GetBanks()
         {
-            throw new NotImplementedException();
+            return await appDbContext.Banks.ToListAsync();
         }
     }
 }

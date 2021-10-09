@@ -8,7 +8,7 @@ namespace SharpBank.API.Models
 {
     public interface IBankServices
     {
-        IEnumerable<Bank> GetBanks();
-        Bank GetBank(string IFSC);
+        Task<IEnumerable<Bank>> GetBanks();
+        Task<Bank> GetBank(string IFSC);
     }
 }

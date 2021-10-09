@@ -9,8 +9,8 @@ using SharpBank.API.Models;
 namespace SharpBank.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211008152014_DatatypeFix")]
-    partial class DatatypeFix
+    [Migration("20211009123307_InitialDebug")]
+    partial class InitialDebug
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,10 +28,15 @@ namespace SharpBank.API.Migrations
                     b.Property<decimal>("Balance")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("IFSC")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AccountNumber");
@@ -43,25 +48,36 @@ namespace SharpBank.API.Migrations
                         {
                             AccountNumber = "001",
                             Balance = 0m,
+                            IFSC = "001",
                             UserName = "Shriram"
+                        },
+                        new
+                        {
+                            AccountNumber = "101",
+                            Balance = 0m,
+                            IFSC = "004",
+                            UserName = "Vijith"
                         },
                         new
                         {
                             AccountNumber = "201",
                             Balance = 0m,
-                            UserName = "Vijith"
+                            IFSC = "002",
+                            UserName = "Sagar"
                         },
                         new
                         {
                             AccountNumber = "301",
                             Balance = 0m,
-                            UserName = "Sagar"
+                            IFSC = "001",
+                            UserName = "Balaji"
                         },
                         new
                         {
                             AccountNumber = "401",
                             Balance = 0m,
-                            UserName = "Balaji"
+                            IFSC = "003",
+                            UserName = "Mohith"
                         });
                 });
 
@@ -71,6 +87,10 @@ namespace SharpBank.API.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("BankName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IFSC");
@@ -109,15 +129,19 @@ namespace SharpBank.API.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("RecepientAccount")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RecepientIFSC")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SenderAccount")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SenderIFSC")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TransactionID");
@@ -128,7 +152,7 @@ namespace SharpBank.API.Migrations
                         new
                         {
                             TransactionID = "001",
-                            Amount = 100.0m,
+                            Amount = 121.70m,
                             RecepientAccount = "001",
                             RecepientIFSC = "001",
                             SenderAccount = "001",
@@ -137,7 +161,7 @@ namespace SharpBank.API.Migrations
                         new
                         {
                             TransactionID = "002",
-                            Amount = 100.0m,
+                            Amount = 3441.02m,
                             RecepientAccount = "002",
                             RecepientIFSC = "002",
                             SenderAccount = "002",
@@ -146,7 +170,7 @@ namespace SharpBank.API.Migrations
                         new
                         {
                             TransactionID = "003",
-                            Amount = 100.0m,
+                            Amount = 1023.0m,
                             RecepientAccount = "003",
                             RecepientIFSC = "001",
                             SenderAccount = "001",
@@ -155,7 +179,7 @@ namespace SharpBank.API.Migrations
                         new
                         {
                             TransactionID = "004",
-                            Amount = 100.0m,
+                            Amount = 710.6m,
                             RecepientAccount = "004",
                             RecepientIFSC = "004",
                             SenderAccount = "004",
@@ -173,7 +197,7 @@ namespace SharpBank.API.Migrations
                         new
                         {
                             TransactionID = "006",
-                            Amount = 100.0m,
+                            Amount = 10.0894m,
                             RecepientAccount = "002",
                             RecepientIFSC = "003",
                             SenderAccount = "001",
@@ -182,7 +206,7 @@ namespace SharpBank.API.Migrations
                         new
                         {
                             TransactionID = "007",
-                            Amount = 100.0m,
+                            Amount = 1.3m,
                             RecepientAccount = "003",
                             RecepientIFSC = "002",
                             SenderAccount = "003",
@@ -191,7 +215,7 @@ namespace SharpBank.API.Migrations
                         new
                         {
                             TransactionID = "008",
-                            Amount = 100.0m,
+                            Amount = 0.1209m,
                             RecepientAccount = "004",
                             RecepientIFSC = "004",
                             SenderAccount = "004",
