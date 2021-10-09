@@ -1,0 +1,38 @@
+﻿@page "/transactions"
+@inherits TransactionsListBase
+
+<h3>Transactions List</h3>
+@if (Transactions == null)
+{
+    <div class="loader">Loading...</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Sender IFSC</th>
+                <th>Sender Account</th>
+                <th>Recipient IFSC</th>
+                <th>Recipient account</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transaction in Transactions)
+            {
+            <tr>
+                <td>@transaction.TransactionID</td>
+                <td>@transaction.SenderIFSC</td>
+                <td>@transaction.SenderAccount</td>
+                <td>@transaction.RecepientIFSC</td>
+                <td>@transaction.RecepientAccount</td>
+                <td>@transaction.Amount</td>
+            </tr>
+
+            }
+        </tbody>
+
+    </table>
+}

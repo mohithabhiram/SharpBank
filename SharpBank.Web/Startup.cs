@@ -32,6 +32,14 @@ namespace SharpBank.Web
             {
                 client.BaseAddress = new Uri("https://localhost:44334/");
             });
+            services.AddHttpClient<IBankServices, BankServices>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44334/");
+            });
+            services.AddHttpClient<ITransactionServices, TransactionServices>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44334/");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
