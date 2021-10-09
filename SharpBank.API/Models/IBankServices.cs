@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharpBank.API.Models
 {
-    interface IBankServices
+    public interface IBankServices
     {
         IEnumerable<Bank> GetBanks();
         Bank GetBank(string IFSC);
