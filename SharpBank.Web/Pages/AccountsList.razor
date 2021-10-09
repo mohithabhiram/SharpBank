@@ -1,0 +1,34 @@
+﻿@page "/"
+@inherits AccountsListBase
+
+<h3>Accounts List</h3>
+@if (Accounts == null)
+{
+    <div class="loader">Loading...</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Account No.</th>
+                <th>Name</th>
+                <th>Bank</th>
+                <th>Balance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var account in Accounts) 
+            { 
+                <tr>
+                    <td>@account.AccountNumber</td>
+                    <td>@account.UserName</td>
+                    <td>@account.Password</td>
+                    <td>@account.Balance</td>
+                </tr>
+            
+            }
+        </tbody>
+
+    </table>
+}
