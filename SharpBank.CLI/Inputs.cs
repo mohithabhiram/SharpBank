@@ -13,6 +13,12 @@ namespace SharpBank.CLI
             Console.WriteLine("Please Enter Your Account Number :");
             return Console.ReadLine();
         }
+        public static string GetName()
+        {
+            Console.WriteLine("Enter Your Name");
+            return Console.ReadLine();
+        }
+        
         public static string GetPassword()
         {
             Console.WriteLine("Please Enter Your Password :");

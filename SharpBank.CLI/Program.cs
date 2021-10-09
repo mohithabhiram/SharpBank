@@ -8,7 +8,7 @@ namespace SharpBank.CLI
     {
         static void Main(string[] args)
         {
-           
+           //Create Banks
             BankManagerServices.AddBank("Acksis Bank");
             BankManagerServices.AddBank("Yaxis Bank");
             BankManagerServices.AddBank("Puxis Bank");
@@ -21,35 +21,34 @@ namespace SharpBank.CLI
             string userPassword = "";
             while (isRunning) { 
                 if (currentMenu == 0) {
-                    ShowMenu(currentMenu);
+                    Menu.BankMenu();
                     int bnk = Inputs.GetSelection();
                     userIFSC = bnk.ToString();
                     currentMenu++;
                     
                 }
                 if (currentMenu == 1) {
-                    ShowMenu(currentMenu);
+                    Menu.LoginMenu();
                     int sel = Inputs.GetSelection();
                     if (sel == 1) {
-                        Console.WriteLine("Enter Your Name");
-                        string userName = Console.ReadLine();
+                        string userName = Inputs.GetName();
 
-                        Console.WriteLine("Enter Your Possword");
-                        userPassword = Console.ReadLine();
+                        userPassword = Inputs.GetPassword();
 
                         userAccountNumber = BankServices.AddAccount(userIFSC, userName, userPassword);
-                        Console.WriteLine("Your account number is " + userAccountNumber + "  and bank IFSC " + userIFSC + " Dont forget it bsdk");
+                        Console.WriteLine("Welcome to "+ BankManager.Banks[userIFSC].BankName+ " Your account number is " + userAccountNumber + "  and bank IFSC " + userIFSC + " Dont forget it");
                     }
                     if (sel == 2) {
                         userAccountNumber = Inputs.GetAccountNumber();
                         userPassword = Inputs.GetPassword();
+                
                         currentMenu++;
                     }
                     if (sel == 3) currentMenu--;
                     if (sel == 4) isRunning = false;
                 }
                 if (currentMenu == 2) {
-                    ShowMenu(currentMenu);
+                    Menu.UserMenu();
                     int sel = Inputs.GetSelection();
                     decimal amount = 0m;
                     switch (sel)
@@ -82,27 +81,11 @@ namespace SharpBank.CLI
                             currentMenu = 0;
                             break;
                         default:
-                            Console.WriteLine("Invalid ma");
-
+                            Console.WriteLine("Invalid Selection");
                             break;
                     }
-
                 }
-            
-            
-            
-            }
-
-        }
-        public static void ShowMenu(int choice) {
-
-            switch (choice) {
-
-                case 0:Menu.BankMenu();break;
-                case 1:Menu.LoginMenu();break;
-                case 2:Menu.UserMenu();break;
             }
         }
-
     }
 }
