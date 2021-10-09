@@ -9,6 +9,7 @@ namespace SharpBank.Models
 {
     public class Bank
     {
+        public string ImagePath { get; set; }
         private string bankName;
         public string BankName
         {
