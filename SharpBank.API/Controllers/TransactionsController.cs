@@ -11,21 +11,21 @@ namespace SharpBank.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountsController : ControllerBase
+    public class TransactionsController : ControllerBase
     {
-        private readonly IAccountServices accountServices;
+        private readonly ITransactionServices transactionServices;
 
-        public AccountsController(IAccountServices accountServices)
+        public TransactionsController(ITransactionServices transactionServices)
         {
-            this.accountServices = accountServices;
+            this.transactionServices = transactionServices;
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAccounts()
+        public async Task<ActionResult> GetTransactions()
         {
             try
             {
-                return Ok(await accountServices.GetAccounts());
+                return Ok(await transactionServices.GetTransactions());
             }
             catch (Exception)
             {
@@ -34,11 +34,11 @@ namespace SharpBank.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(string id)
+        public async Task<ActionResult<Transaction>> GetTransaction(string id)
         {
             try
             {
-                var result = await accountServices.GetAccount(id);
+                var result = await transactionServices.GetTransaction(id);
                 if (result == null)
                 {
                     return NotFound();
@@ -53,16 +53,16 @@ namespace SharpBank.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Account>> CreateAccount(Account account)
+        public async Task<ActionResult<Transaction>> CreateTransaction(Transaction transaction)
         {
             try
             {
-                if (account == null)
+                if (transaction == null)
                 {
                     return BadRequest();
                 }
-                var newAccount = await accountServices.AddAccount(account);
-                return CreatedAtAction(nameof(GetAccount), new { id = newAccount.AccountNumber }, newAccount);
+                var newTransaction = await transactionServices.AddTransaction(transaction);
+                return CreatedAtAction(nameof(GetTransaction), new { id = newTransaction.TransactionID }, newTransaction);
             }
             catch (Exception)
             {
