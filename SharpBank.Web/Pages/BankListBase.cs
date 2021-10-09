@@ -9,6 +9,7 @@ namespace SharpBank.Web.Pages
 {
     public class BankListBase:ComponentBase
     {
+
         public IEnumerable<Bank> Banks { get; set; }
 
         protected override async Task OnInitializedAsync()

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SharpBank.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,10 @@ namespace SharpBank.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddHttpClient<IAccountServices, AccountServices>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44334/");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
