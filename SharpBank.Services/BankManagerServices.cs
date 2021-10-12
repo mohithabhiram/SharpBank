@@ -12,7 +12,7 @@ namespace SharpBank.Services
     {
         private static string GenerateIFSC()
         {
-            string code = (Database.Banks.Count + 1).ToString();
+            string code = (DataStore.Banks.Count + 1).ToString();
             return code;
         }
 

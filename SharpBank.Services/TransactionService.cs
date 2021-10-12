@@ -5,45 +5,57 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpBank.Models;
 using SharpBank.Models.Exceptions;
+using SharpBank.Models.Enums;
 
 namespace SharpBank.Services
 {
-    public static class TransactionServices
+    public  class TransactionService
     {
+        public long AddTransaction(long BankId)
+        {
+            Transaction transaction = new Transaction
+            {
+                ID = GenerateId(),
+                On = DateTime.Now,
+                Type = TransactionType.Credit,
 
-            //AddTransaction(
-            //new Transaction
-            //{senderIFSC="",
-            //...
 
-            //}
+            };
+            return transaction.ID;
+
+        }
+        public long GenerateId()
+        {
+            return 1;
+
+        }
+
+
+        //public static Transaction AddTransaction(Transaction transaction)
+        //{
+        //    DataStore.Transactions.Add(transaction);
+        //    return transaction;
+        //}
+
+        //public static Transaction GetTransaction(string TransactionID)
+        //{
+
+        //    var tx = DataStore.Transactions.FirstOrDefault(t => t.TransactionID == TransactionID);
+        //    return tx;
+        //}
+
+        //public static List<Transaction> GetTransactions()
+        //{
+        //    return DataStore.Transactions;
             
-            //)
-        public static Transaction AddTransaction(Transaction transaction)
-        {
-            Database.Transactions.Add(transaction);
-            return transaction;
-        }
-
-        public static Transaction GetTransaction(string TransactionID)
-        {
-
-            var tx = Database.Transactions.FirstOrDefault(t => t.TransactionID == TransactionID);
-            return tx;
-        }
-
-        public static List<Transaction> GetTransactions()
-        {
-            return Database.Transactions;
-            
-        }
+        //}
 
 
-        private static string generateTransactionID() 
-        {
-            int serialNumber = Database.Transactions.Count + 1;
-            return serialNumber.ToString();
-        }
+        //private static string generateTransactionID() 
+        //{
+        //    int serialNumber = DataStore.Transactions.Count + 1;
+        //    return serialNumber.ToString();
+        //}
         //private static void validateTransaction(string senderIFSC, string sender, string receiverIFSC, string receiver, decimal amount)
         //{
         //    try
