@@ -15,7 +15,7 @@ namespace SharpBank.Services
             Random rand = new Random();
             long Id = rand.Next(); ;
 
-            while (DataStore.Banks.FirstOrDefault(b => b.Id == Id) != null)
+            while (DataStore.Banks.FirstOrDefault(b => b.BankId == Id) != null)
             {
                 Id = rand.Next();
             }
@@ -30,7 +30,7 @@ namespace SharpBank.Services
             }
             Bank bank = new Bank
             {
-                Id = this.GenerateId(),
+                BankId = this.GenerateId(),
                 Name = name,
                 CreatedBy = "Mohith",
                 CreatedOn = DateTime.Now,
@@ -39,7 +39,12 @@ namespace SharpBank.Services
                 Accounts = new List<Account>()
             };
             DataStore.Banks.Add(bank);
-            return bank.Id;
+            return bank.BankId;
+        }
+        public Bank GetBank(long bankId)
+        {
+
+            return DataStore.Banks.SingleOrDefault(b => b.BankId == bankId);
         }
 
 

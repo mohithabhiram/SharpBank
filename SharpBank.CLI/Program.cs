@@ -10,18 +10,15 @@ namespace SharpBank.CLI
     {
         static void Main(string[] args)
         {
-
-            
-
-            bool isRunning = true;
             int currentMenu = 0;
-             Account acc=null;
-            string userIFSC = "";
-            while (isRunning) { 
+            long userBankId = 0;
+            long userAccountId = 0;
+            Account acc=null;
+            while (true) { 
                 if (currentMenu == 0) {
                     Menu.BankMenu();
                     int bnk = Inputs.GetSelection();
-                    userIFSC = bnk.ToString();
+                    userBankId = bnk;
                     currentMenu++;
                 }
                 if (currentMenu == 1) {
@@ -30,20 +27,19 @@ namespace SharpBank.CLI
                     switch(option)
                     {
                         case LoginOptions.Create:
-                            acc= AccountsController.CreateAccount(userIFSC);
-                            Console.WriteLine("Your account number is " + acc.AccountNumber + "  and bank IFSC " + acc.IFSC + " Dont forget it .");
+                            userAccountId= AccountsController.CreateAccount(userBankId);
+                            Console.WriteLine("Your account number is " + userAccountId.ToString("D10"));
                             break;
                         case LoginOptions.Login:
-                            string userAccountNumber = Inputs.GetAccountNumber();
+                            userAccountId = Inputs.GetAccountNumber();
                             string userPassword = Inputs.GetPassword();
-                            acc = AccountsController.GetAccount(userIFSC, userAccountNumber);
                             currentMenu++;
                             break;
                         case LoginOptions.Back:
                             currentMenu--;
                             break;
                         case LoginOptions.Exit:
-                            isRunning = false;
+                            Environment.Exit(0);
                             break;
                     }
                 }
@@ -55,21 +51,21 @@ namespace SharpBank.CLI
                     {
                         case UserOptions.Deposit:
                             amount = Inputs.GetAmount();
-                            TransactionsController.Deposit(acc ,amount);
+                            TransactionsController.Deposit(acc,amount);
                             break;
                         case UserOptions.Withdraw:
                             amount = Inputs.GetAmount();
                             TransactionsController.Withdraw(acc , amount);
                             break;
                         case UserOptions.Transfer:
-                            List<string> recp = Inputs.GetRecipient();
+                            List<long> recp = Inputs.GetRecipient();
                             amount = Inputs.GetAmount();
-                            Account recipAcc = AccountsController.GetAccount(recp[0], recp[1]);
-                            TransactionsController.Transfer(acc,  recipAcc,amount);
+                            //Account recipAcc = AccountsController.GetAccount();
+                            //TransactionsController.Transfer(acc,  recipAcc,amount);
                             break;
                         case UserOptions.ShowBalance:
                             {
-                                Console.WriteLine("Your Balance is: " + AccountsController.GetBalance(acc));
+                                Console.WriteLine("Your Balance is: " + AccountsController.GetBalance(userBankId,userAccountId));
                                 break;
                             }
                         case UserOptions.TransactionHistory:

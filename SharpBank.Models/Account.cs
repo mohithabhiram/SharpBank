@@ -10,7 +10,7 @@ namespace SharpBank.Models
 {
     public class Account
     {
-        public long Id { get; set; }
+        public long AccountId { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
         public decimal Balance { get; set; }
