@@ -20,7 +20,7 @@ namespace SharpBank.CLI.Controllers
             this.accountService = accountService;
             this.inputs = inputs;
         }
-        public long CreateAccount(long bankId)
+        public long CreateAccount(string bankId)
         {
             long id = 0;
             try
@@ -41,7 +41,7 @@ namespace SharpBank.CLI.Controllers
             }
             return id;
         }
-        public Account GetAccount(long bankId, long accountId)
+        public Account GetAccount(string bankId, long accountId)
         {
 
             try
@@ -64,7 +64,7 @@ namespace SharpBank.CLI.Controllers
             }
             return null;
         }
-        public decimal GetBalance(long bankId, long accountId)
+        public decimal GetBalance(string bankId, long accountId)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace SharpBank.CLI.Controllers
             }
             return -1m;
         }
-        public List<Transaction> GetTransactionHistory(long bankId, long accountId)
+        public List<Transaction> GetTransactionHistory(string bankId, long accountId)
         {
             List<Transaction> transactions = new List<Transaction>();
             try

@@ -24,6 +24,11 @@ namespace SharpBank.CLI
             Console.WriteLine("Please Enter Your Name :");
             return Console.ReadLine();
         }
+        public string GetBankId()
+        {
+            Console.WriteLine("Please Enter Your Selection :");
+            return Console.ReadLine();
+        }
         public Gender GetGender()
         {
             Console.WriteLine("Please Enter Your Gender (Male/Female/Other) :");
@@ -50,13 +55,14 @@ namespace SharpBank.CLI
             Console.WriteLine("Please Enter The Amount :");
             return Convert.ToDecimal(Console.ReadLine());
         }
-        public  List<long> GetRecipient()
+        public  List<string> GetRecipient()
         {
-            List<long> res = new List<long>();
+            List<string> res = new List<string>();
             Console.WriteLine("Please Enter Recipient BankId");
-            res.Add(Convert.ToInt64(Console.ReadLine()));
+            string recipBankId = Console.ReadLine();
+            res.Add(recipBankId);
             Console.WriteLine("Please Enter Recipient Account number");
-            res.Add(Convert.ToInt64(Console.ReadLine()));
+            res.Add((Console.ReadLine()));
             return res;
         }
     }

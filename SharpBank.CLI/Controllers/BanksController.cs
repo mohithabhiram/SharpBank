@@ -11,7 +11,7 @@ using SharpBank.Models.Exceptions;
 
 namespace SharpBank.CLI.Controllers
 {
-    class BanksController
+    public class BanksController
     {
         private BankService bankService;
         private Inputs inputs;
@@ -21,13 +21,14 @@ namespace SharpBank.CLI.Controllers
             this.bankService = bankService;
             this.inputs = inputs;
         }
-        public long CreateBank(string name)
+        public string CreateBank(string name)
         {
-            long id = 0;
+            string id;
             try
             {
                 string bankName = name;
                 id = bankService.AddBank(bankName);
+                return id;
 
             }
             //catch (BankIdException e)
@@ -39,11 +40,11 @@ namespace SharpBank.CLI.Controllers
             {
                 Console.WriteLine("Internal Error");
             }
-            return id;
+            return null;
 
 
         }
-        public Bank GetBank(long bankId)
+        public Bank GetBank(string bankId)
         {
 
             try

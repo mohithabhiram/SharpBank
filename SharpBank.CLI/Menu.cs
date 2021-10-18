@@ -15,7 +15,7 @@ namespace SharpBank.CLI
             Console.WriteLine("Choose Your Bank");
             foreach (Bank bank in datastore.Banks)
             {
-                Console.WriteLine(bank.BankId.ToString("D10") + " | " + bank.Name);
+                Console.WriteLine(bank.BankId + " | " + bank.Name);
             }
         }
         public static void LoginMenu()

@@ -14,28 +14,28 @@ namespace SharpBank.Services
         public BankService(DataStore datastore)
         {
             this.dataStore = datastore;
-            datastore.Banks.Add(new Bank { BankId = 0, Name = "Reserve Bank", Accounts = new List<Account> { } });
+            datastore.Banks.Add(new Bank { BankId = "", Name = "", Accounts = new List<Account> { } });
         }
-        public long GenerateId()
-        {
-            Random rand = new Random();
-            long Id = rand.Next(); ;
-
-            while (dataStore.Banks.FirstOrDefault(b => b.BankId == Id) != null)
-            {
-                Id = rand.Next();
-            }
-            return Id;
-        }
-
-        //public string GenerateBankId(string name)
+        //public long GenerateId()
         //{
-        //    DateTime d = DateTime.Now;
-        //    string date = DateTime.Now.ToString("ddMMyy");
-        //    return name.Substring(0, 3) + date;
+        //    Random rand = new Random();
+        //    long Id = rand.Next(); ;
+
+        //    while (dataStore.Banks.FirstOrDefault(b => b.BankId == Id) != null)
+        //    {
+        //        Id = rand.Next();
+        //    }
+        //    return Id;
         //}
 
-        public long AddBank(string name)
+        public string GenerateBankId(string name)
+        {
+            DateTime d = DateTime.Now;
+            string date = DateTime.Now.ToString("ddMMyy");
+            return name.Substring(0, 3) + date;
+        }
+
+        public string AddBank(string name)
         {
             if(dataStore.Banks.Any(m=> m.Name==name))
             {
@@ -43,7 +43,7 @@ namespace SharpBank.Services
             }
             Bank bank = new Bank
             {
-                BankId = this.GenerateId(),
+                BankId = this.GenerateBankId(name),
                 Name = name,
                 CreatedBy = "Mohith",
                 CreatedOn = DateTime.Now,
@@ -54,7 +54,7 @@ namespace SharpBank.Services
             dataStore.Banks.Add(bank);
             return bank.BankId;
         }
-        public Bank GetBank(long bankId)
+        public Bank GetBank(string bankId)
         {
 
             return dataStore.Banks.SingleOrDefault(b => b.BankId == bankId);

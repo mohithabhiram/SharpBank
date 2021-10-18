@@ -16,8 +16,11 @@ namespace SharpBank.Services
         {
             this.accountService = accountService;
         }
-        public long AddTransaction(long sourceBankId, long sourceAccountId, long destinationBankId, long destinationAccountId, decimal amount)
+        public long AddTransaction(string sourceBankId, long sourceAccountId, string destinationBankId, long destinationAccountId, decimal amount)
         {
+            accountService.UpdateBalance(sourceBankId, sourceAccountId, accountService.GetAccount(sourceBankId, sourceAccountId).Balance - amount);
+            accountService.UpdateBalance(destinationBankId, destinationAccountId, accountService.GetAccount(destinationBankId, destinationAccountId).Balance + amount);
+
             Transaction transaction = new Transaction
             {
                 TransactionId = GenerateId(sourceBankId, sourceAccountId, destinationBankId, destinationAccountId),
@@ -33,7 +36,7 @@ namespace SharpBank.Services
             accountService.GetAccount(destinationBankId, destinationAccountId).Transactions.Add(transaction);
             return transaction.TransactionId;
         }
-        public long GenerateId(long sourceBankId, long sourceAccountId, long destinationBankId, long destinationAccountId)
+        public long GenerateId(string sourceBankId, long sourceAccountId, string destinationBankId, long destinationAccountId)
         {
             Random rand = new Random(123);
             Account sourceAccount = accountService.GetAccount(sourceBankId, sourceAccountId);
@@ -56,7 +59,7 @@ namespace SharpBank.Services
         //}
 
 
-        public Transaction GetTransaction(long bankId, long accountId, long TransactionId)
+        public Transaction GetTransaction(string bankId, long accountId, long TransactionId)
         {
             Account account = accountService.GetAccount(bankId, accountId);
             var transaction = account.Transactions.SingleOrDefault(t => t.TransactionId == TransactionId);

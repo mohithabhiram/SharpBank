@@ -9,7 +9,7 @@ namespace SharpBank.Models
 {
     public class Bank
     {
-        public long BankId { get; set; }
+        public string BankId { get; set; }
         public string Name { get; set; }
         public List<Account> Accounts { get; set; }
         public DateTime CreatedOn { get; set; }

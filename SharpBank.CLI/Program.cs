@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SharpBank.Services;
 using SharpBank.Models;
 using SharpBank.CLI.Controllers;
+using SharpBank.Models.Enums;
 
 namespace SharpBank.CLI
 {
@@ -11,36 +12,30 @@ namespace SharpBank.CLI
         static void Main(string[] args)
         {
             int currentMenu = 0;
-            long userBankId = 0;
+            string userBankId = "";
             long userAccountId = 0;
-            Account acc=null;
+
             Inputs inputs = new Inputs();
             DataStore datastore = new DataStore();
+
             BankService bankService = new BankService(datastore);
             AccountService accountService = new AccountService(bankService);
             TransactionService transactionService = new TransactionService(accountService);
 
             BanksController banksController = new BanksController(bankService, inputs);
             AccountsController accountsController = new AccountsController(accountService, inputs);
-            TransactionsController transactionsController = new TransactionsController(transactionService);
+            TransactionsController transactionsController = new TransactionsController(transactionService,accountService);
 
-            banksController.CreateBank("Yaxis");
-            banksController.CreateBank("YesBI");
-            banksController.CreateBank("FDHC");
-
-
-
-
-
-
+            Utilities.CreateBank.CustomBanks(banksController);
+           
             while (true) { 
-                if (currentMenu == 0) {
+                if (currentMenu == (int)Menus.BankMenu) {
                     Menu.BankMenu(datastore);
-                    int bnk = inputs.GetSelection();
-                    userBankId = bnk;
+                    string b = inputs.GetBankId();
+                    userBankId = b;
                     currentMenu++;
                 }
-                if (currentMenu == 1) {
+                if (currentMenu == (int)Menus.LoginMenu) {
                     Menu.LoginMenu();
                     LoginOptions option = (LoginOptions)Enum.Parse(typeof(LoginOptions), Console.ReadLine());
                     switch(option)
@@ -62,7 +57,7 @@ namespace SharpBank.CLI
                             break;
                     }
                 }
-                if (currentMenu == 2) {
+                if (currentMenu == (int)Menus.UserMenu) {
                     Menu.UserMenu();
                     UserOptions option = (UserOptions)Enum.Parse(typeof(UserOptions), Console.ReadLine());
                     decimal amount = 0m;
@@ -77,10 +72,10 @@ namespace SharpBank.CLI
                             transactionsController.Withdraw(userBankId, userAccountId, amount);
                             break;
                         case UserOptions.Transfer:
-                            List<long> recp = inputs.GetRecipient();
+                            List<string> recp = inputs.GetRecipient();
                             amount = inputs.GetAmount();
                             //Account recipAcc = AccountsController.GetAccount();
-                            transactionsController.Transfer(userBankId, userAccountId, recp[0], recp[1], amount);
+                            transactionsController.Transfer(userBankId, userAccountId, recp[0], Convert.ToInt64(recp[1]), amount);
                             break;
                         case UserOptions.ShowBalance:
                             {
@@ -88,19 +83,19 @@ namespace SharpBank.CLI
                                 break;
                             }
                         case UserOptions.TransactionHistory:
-                            List<Transaction> hist = accountsController.GetTransactionHistory(userBankId, userAccountId);
+                            List<Transaction> tHist = accountsController.GetTransactionHistory(userBankId, userAccountId);
                             Console.WriteLine("TransactionId | Source Bank | Source Account | Dest. Bank | Dest Account |  Amount  | Timestamp ");
                             Console.WriteLine("-----------------------------------------------------------------------------------------------------------");
-                            foreach (Transaction t in hist)
+                            foreach (Transaction t in tHist)
                             {
-                                Console.WriteLine(t.ToString());
+                                Console.WriteLine($" {t.TransactionId.ToString("D10")} | {t.SourceBankId}  |   {t.SourceAccountId.ToString("D10")}   |   {t.DestinationBankId}  |  {t.DestinationAccountId.ToString("D10")}   | {t.Amount.ToString("C3")} | {t.On}");
                             }
                             break;
                         case UserOptions.Exit:
                             currentMenu = 0;
                             break;
                         default:
-                            Console.WriteLine("Invalid ma");
+                            Console.WriteLine("Invalid");
                             break;
 
                     }
@@ -108,23 +103,6 @@ namespace SharpBank.CLI
                 }
        
             }
-
-        }
-        public enum LoginOptions
-        {
-            Create=1,
-            Login,
-            Back,
-            Exit
-        }
-        public enum UserOptions
-        {
-            Deposit=1,
-            Withdraw,
-            Transfer,
-            ShowBalance,
-            TransactionHistory,
-            Exit
 
         }
     }
