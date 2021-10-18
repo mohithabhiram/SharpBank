@@ -16,7 +16,7 @@ namespace SharpBank.Services
         {
             this.accountService = accountService;
         }
-        public long AddTransaction(long sourceAccountId, long sourceBankId, long destinationAccountId, long destinationBankId, decimal amount)
+        public long AddTransaction(long sourceBankId, long sourceAccountId, long destinationBankId, long destinationAccountId, decimal amount)
         {
             Transaction transaction = new Transaction
             {
@@ -49,6 +49,13 @@ namespace SharpBank.Services
                     (destinationAccount.Transactions.SingleOrDefault(t => t.TransactionId == Id) != null));
             return Id;
         }
+
+        //public string GenerateTransactionId(string sourceBankId, string sourceAccountId)
+        //{
+
+        //}
+
+
         public Transaction GetTransaction(long bankId, long accountId, long TransactionId)
         {
             Account account = accountService.GetAccount(bankId, accountId);

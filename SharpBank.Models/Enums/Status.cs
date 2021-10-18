@@ -11,11 +11,6 @@ namespace SharpBank.Models.Enums
         Active = 1,
         Inactive,
         Dormant,
-        Closed,
-        Absconded,
-        OnParole,
-        Missing,
-        Broke,
-        Bankrupt
+        Closed
     }
 }

@@ -10,21 +10,34 @@ namespace SharpBank.Services
 {
     public class BankService
     {
+        private DataStore dataStore;
+        public BankService(DataStore datastore)
+        {
+            this.dataStore = datastore;
+            datastore.Banks.Add(new Bank { BankId = 0, Name = "Reserve Bank", Accounts = new List<Account> { } });
+        }
         public long GenerateId()
         {
             Random rand = new Random();
             long Id = rand.Next(); ;
 
-            while (DataStore.Banks.FirstOrDefault(b => b.BankId == Id) != null)
+            while (dataStore.Banks.FirstOrDefault(b => b.BankId == Id) != null)
             {
                 Id = rand.Next();
             }
             return Id;
         }
 
+        //public string GenerateBankId(string name)
+        //{
+        //    DateTime d = DateTime.Now;
+        //    string date = DateTime.Now.ToString("ddMMyy");
+        //    return name.Substring(0, 3) + date;
+        //}
+
         public long AddBank(string name)
         {
-            if(DataStore.Banks.Any(m=> m.Name==name))
+            if(dataStore.Banks.Any(m=> m.Name==name))
             {
                 throw new Exception("Bank Exists with this name!");
             }
@@ -38,13 +51,13 @@ namespace SharpBank.Services
                 UpdatedOn = DateTime.Now,
                 Accounts = new List<Account>()
             };
-            DataStore.Banks.Add(bank);
+            dataStore.Banks.Add(bank);
             return bank.BankId;
         }
         public Bank GetBank(long bankId)
         {
 
-            return DataStore.Banks.SingleOrDefault(b => b.BankId == bankId);
+            return dataStore.Banks.SingleOrDefault(b => b.BankId == bankId);
         }
 
 

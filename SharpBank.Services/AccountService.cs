@@ -12,11 +12,27 @@ namespace SharpBank.Services
     public class AccountService
     {
         public BankService bankService;
-        public long AddAccount(String name, String password, long BankId, Gender gender)
+        public AccountService(BankService bankService)
+        {
+            this.bankService = bankService;
+            Account acc = new Account
+            {
+                Name = "",
+                Gender = Gender.Other,
+                AccountId = 0,
+                BankId = 0,
+                Balance = 0m,
+                Status = Status.Active,
+                Transactions = new List<Transaction>()
+            };
+            bankService.GetBank(0).Accounts.Add(acc);
+        }
+        public long AddAccount(String name, String password, long bankId, Gender gender)
         {
             Account account = new Account
             {
-                AccountId = GenerateId(BankId),
+                AccountId = GenerateId(bankId),
+                BankId = bankId,
                 Name = name,
                 Password = name,
                 Balance = 0m,
@@ -24,32 +40,40 @@ namespace SharpBank.Services
                 Status = Models.Enums.Status.Active,
                 Transactions = new List<Transaction>()
             };
-            Bank bank = DataStore.Banks.FirstOrDefault(b => b.BankId == BankId);
-            bank.Accounts.Add(account);
+            bankService.GetBank(bankId).Accounts.Add(account);
             return account.AccountId;
         }
-        public long GenerateId(long BankId)
+        public long GenerateId(long bankId)
         {
-            Random rand = new Random();
-            long Id = rand.Next(); ;
-            Bank bank = DataStore.Banks.FirstOrDefault(b => b.BankId == BankId);
-            while (bank.Accounts.SingleOrDefault(acc => acc.AccountId == Id) != null)
+            Random rand = new Random(321);
+            Bank bank = bankService.GetBank(bankId);
+            long Id;
+            do
             {
                 Id = rand.Next();
             }
 
+            while (bank.Accounts.SingleOrDefault(a => a.AccountId == Id) != null);
             return Id;
         }
+        //public string GenerateAccountId(string name)
+        //{
+        //    DateTime d = DateTime.Now;
+        //    string date = DateTime.Now.ToString("ddMMyy");
+        //    return name.Substring(0, 3) + date;
+        //}
+
+
+
         public Account GetAccount(long bankId, long accountId)
         {
             return bankService.GetBank(bankId).Accounts.SingleOrDefault(a => a.AccountId == accountId);
         }
 
-        public void UpdateBalance(long BankId, long AccountId, decimal Balance)
+        public void UpdateBalance(long bankId, long accountId, decimal balance)
         {
-            Bank bank = DataStore.Banks.FirstOrDefault(b => b.BankId == BankId);
-            Account acc = bank.Accounts.SingleOrDefault(acc => acc.AccountId == AccountId);
-            acc.Balance = Balance;
+            Account acc = GetAccount(bankId, accountId);
+            acc.Balance = balance;
 
         }
 

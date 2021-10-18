@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace SharpBank.Services
 {
-    static class  DataStore
+    public class  DataStore
     {
-        public static List<Bank> Banks { get; set; }
-        public static List<Account> Accounts { get; set; }
-        public static List<Transaction> Transactions { get; set; }
-        
+        public List<Bank> Banks { get; set; }
+        public DataStore()
+        {
+            Banks = new List<Bank>();
+        }
+        //public static List<Account> Accounts { get; set; }
+        //public static List<Transaction> Transactions { get; set; }
+
     }
 }

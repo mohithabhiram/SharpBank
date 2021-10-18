@@ -11,6 +11,7 @@ namespace SharpBank.Models
     public class Account
     {
         public long AccountId { get; set; }
+        public long BankId { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
         public decimal Balance { get; set; }

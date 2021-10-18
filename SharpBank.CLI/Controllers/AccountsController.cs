@@ -10,17 +10,24 @@ using System.Threading.Tasks;
 
 namespace SharpBank.CLI.Controllers
 {
-    static class AccountsController
+    class AccountsController
     {
-        public static AccountService accountService;
-        public static long CreateAccount(long bankId)
+        private AccountService accountService;
+        private Inputs inputs;
+
+        public AccountsController(AccountService accountService, Inputs inputs)
+        {
+            this.accountService = accountService;
+            this.inputs = inputs;
+        }
+        public long CreateAccount(long bankId)
         {
             long id = 0;
             try
             {
-                string name = Inputs.GetName();
-                string password = Inputs.GetPassword();
-                Gender gender = Inputs.GetGender();
+                string name = inputs.GetName();
+                string password = inputs.GetPassword();
+                Gender gender = inputs.GetGender();
                 id = accountService.AddAccount(name, password, bankId, gender);
             }
             catch (AccountNumberException e)
@@ -34,7 +41,7 @@ namespace SharpBank.CLI.Controllers
             }
             return id;
         }
-        public static Account GetAccount(long bankId, long accountId)
+        public Account GetAccount(long bankId, long accountId)
         {
 
             try
@@ -57,7 +64,7 @@ namespace SharpBank.CLI.Controllers
             }
             return null;
         }
-        public static decimal GetBalance(long bankId, long accountId)
+        public decimal GetBalance(long bankId, long accountId)
         {
             try
             {
@@ -79,7 +86,7 @@ namespace SharpBank.CLI.Controllers
             }
             return -1m;
         }
-        public static List<Transaction> GetTransactionHistory(long bankId, long accountId)
+        public List<Transaction> GetTransactionHistory(long bankId, long accountId)
         {
             List<Transaction> transactions = new List<Transaction>();
             try

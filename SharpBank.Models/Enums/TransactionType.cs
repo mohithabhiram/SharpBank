@@ -10,6 +10,6 @@ namespace SharpBank.Models.Enums
     {
         Credit = 1,
         Debit,
-        Sweep
+        Transfer
     }
 }

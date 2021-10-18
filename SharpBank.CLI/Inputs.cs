@@ -7,30 +7,30 @@ using SharpBank.Models.Enums;
 
 namespace SharpBank.CLI
 {
-    public static class Inputs
+    public class Inputs
     {
-        public static long GetAccountNumber()
+        public long GetAccountNumber()
         {
             Console.WriteLine("Please Enter Your Account Number :");
             return Convert.ToInt64(Console.ReadLine());
         }
-        public static string GetPassword()
+        public string GetPassword()
         {
             Console.WriteLine("Please Enter Your Password :");
             return Console.ReadLine();
         }
-        public static string GetName()
+        public string GetName()
         {
             Console.WriteLine("Please Enter Your Name :");
             return Console.ReadLine();
         }
-        public static Gender GetGender()
+        public Gender GetGender()
         {
             Console.WriteLine("Please Enter Your Gender (Male/Female/Other) :");
             Enum.TryParse(Console.ReadLine(), out Gender gender);
             return gender;
         }
-        public static int GetSelection()
+        public int GetSelection()
         {
             try
             {
@@ -45,12 +45,12 @@ namespace SharpBank.CLI
             //Goback
             return -1;
         }
-        public static decimal GetAmount()
+        public decimal GetAmount()
         {
             Console.WriteLine("Please Enter The Amount :");
             return Convert.ToDecimal(Console.ReadLine());
         }
-        public static List<long> GetRecipient()
+        public  List<long> GetRecipient()
         {
             List<long> res = new List<long>();
             Console.WriteLine("Please Enter Recipient BankId");

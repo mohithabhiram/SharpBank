@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharpBank.Models;
 using SharpBank.Services;
 
 namespace SharpBank.CLI
 {
     static class  Menu
     {
-        public static void BankMenu()
+        public static void BankMenu(DataStore datastore)
         {
             Console.WriteLine("Choose Your Bank");
-            int c = 1;
-            foreach (var x in BankService.GetBanks()) 
+            foreach (Bank bank in datastore.Banks)
             {
-                Console.WriteLine(c + " -> " + x.BankName);
-                c += 1;
+                Console.WriteLine(bank.BankId.ToString("D10") + " | " + bank.Name);
             }
         }
         public static void LoginMenu()
