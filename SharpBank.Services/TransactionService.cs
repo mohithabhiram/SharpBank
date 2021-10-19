@@ -16,27 +16,38 @@ namespace SharpBank.Services
         {
             this.accountService = accountService;
         }
-        public long AddTransaction(string sourceBankId, long sourceAccountId, string destinationBankId, long destinationAccountId, decimal amount)
-        {
-            accountService.UpdateBalance(sourceBankId, sourceAccountId, accountService.GetAccount(sourceBankId, sourceAccountId).Balance - amount);
-            accountService.UpdateBalance(destinationBankId, destinationAccountId, accountService.GetAccount(destinationBankId, destinationAccountId).Balance + amount);
+        public long AddTransaction(string sourceBankId, long sourceAccountId, string destinationBankId, long destinationAccountId, decimal amount, TransactionType transactionType)
 
+        {
+            if(transactionType == TransactionType.Debit)
+            {
+                accountService.UpdateBalance(sourceBankId, sourceAccountId, accountService.GetAccount(sourceBankId, sourceAccountId).Balance - amount);
+            }
+            else if(transactionType == TransactionType.Credit)
+            {
+                accountService.UpdateBalance(destinationBankId, destinationAccountId, accountService.GetAccount(destinationBankId, destinationAccountId).Balance + amount);
+            }
+            else
+            {
+                accountService.UpdateBalance(sourceBankId, sourceAccountId, accountService.GetAccount(sourceBankId, sourceAccountId).Balance - amount);
+                accountService.UpdateBalance(destinationBankId, destinationAccountId, accountService.GetAccount(destinationBankId, destinationAccountId).Balance + amount);
+            }
             Transaction transaction = new Transaction
             {
-                TransactionId = GenerateId(sourceBankId, sourceAccountId, destinationBankId, destinationAccountId),
+                TransactionId = GenerateId(sourceBankId, sourceAccountId, destinationBankId, destinationAccountId,transactionType),
                 SourceAccountId = sourceAccountId,
                 SourceBankId = sourceBankId,
                 DestinationAccountId = destinationAccountId,
                 DestinationBankId = destinationBankId,
                 Amount = amount,
-                Type = Models.Enums.TransactionType.Credit,
+                Type = transactionType,
                 On = DateTime.Now
             };
             accountService.GetAccount(sourceBankId, sourceAccountId).Transactions.Add(transaction);
             accountService.GetAccount(destinationBankId, destinationAccountId).Transactions.Add(transaction);
             return transaction.TransactionId;
         }
-        public long GenerateId(string sourceBankId, long sourceAccountId, string destinationBankId, long destinationAccountId)
+        public long GenerateId(string sourceBankId, long sourceAccountId, string destinationBankId, long destinationAccountId,TransactionType transactionType)
         {
             Random rand = new Random(123);
             Account sourceAccount = accountService.GetAccount(sourceBankId, sourceAccountId);
@@ -49,8 +60,9 @@ namespace SharpBank.Services
             }
 
             while ((sourceAccount.Transactions.SingleOrDefault(t => t.TransactionId == Id) != null) ||
-                    (destinationAccount.Transactions.SingleOrDefault(t => t.TransactionId == Id) != null));
+                (destinationAccount.Transactions.SingleOrDefault(t => t.TransactionId == Id) != null));
             return Id;
+
         }
 
         //public string GenerateTransactionId(string sourceBankId, string sourceAccountId)

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharpBank.Models.Enums;
 
 namespace SharpBank.CLI.Controllers
 {
@@ -24,7 +25,7 @@ namespace SharpBank.CLI.Controllers
             long id = 0;
             try
             {
-                id = transactionService.AddTransaction(bankId, accountId, "", 0, amount);
+                id = transactionService.AddTransaction(bankId, accountId, "", 0, amount,TransactionType.Debit);
             }
             catch (BalanceException)
             {
@@ -43,7 +44,7 @@ namespace SharpBank.CLI.Controllers
             long id = 0;
             try
             {
-                id = transactionService.AddTransaction("", 0, bankId, accountId, amount);
+                id = transactionService.AddTransaction("", 0, bankId, accountId, amount, TransactionType.Credit);
             }
             catch (BalanceException)
             {
@@ -61,7 +62,7 @@ namespace SharpBank.CLI.Controllers
             long id = 0;
             try
             {
-                id = transactionService.AddTransaction(sourceBankId, sourceAccountId, destinationBankId, destinationAccountId, amount);
+                id = transactionService.AddTransaction(sourceBankId, sourceAccountId, destinationBankId, destinationAccountId, amount,TransactionType.Transfer);
             }
             catch (BalanceException)
             {
