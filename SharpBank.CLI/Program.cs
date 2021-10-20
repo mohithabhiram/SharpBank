@@ -88,7 +88,7 @@ namespace SharpBank.CLI
                             Console.WriteLine("-----------------------------------------------------------------------------------------------------------");
                             foreach (Transaction t in tHist)
                             {
-                                Console.WriteLine($" {t.TransactionId.ToString("D10")} | {t.SourceBankId}  |   {t.SourceAccountId.ToString("D10")}   |   {t.DestinationBankId}  |  {t.DestinationAccountId.ToString("D10")}   | {t.Amount.ToString("C3")} | {t.On}");
+                                Console.WriteLine($" {t.TransactionId.ToString("D10")} | {t.SourceBankId}  |   {t.SourceAccountId.ToString("D10")}   |   {t.DestinationBankId}  |  {t.DestinationAccountId.ToString("D10")}   | {t.Amount.ToString()} | {t.On}");
                             }
                             break;
                         case UserOptions.Exit:

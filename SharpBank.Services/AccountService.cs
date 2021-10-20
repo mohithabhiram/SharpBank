@@ -18,7 +18,7 @@ namespace SharpBank.Services
             Account acc = new Account
             {
                 Name = "",
-                Gender = Gender.Other,
+                Gender = Gender.Male,
                 AccountId = 0,
                 BankId = "",
                 Balance = 0m,
