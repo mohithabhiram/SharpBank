@@ -19,8 +19,8 @@ namespace SharpBank.Models
         public decimal RTGSToOther { get; set; }
         public decimal IMPSToSame { get; set; }
         public decimal IMPSToOther { get; set; }
-        //public string CreatedBy { get; set; }
-        //public DateTime UpdatedOn { get; set; }
-        //public string UpdatedBy { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime UpdatedOn { get; set; }
+        public string UpdatedBy { get; set; }
     }
 }
