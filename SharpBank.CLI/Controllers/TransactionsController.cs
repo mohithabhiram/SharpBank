@@ -20,12 +20,12 @@ namespace SharpBank.CLI.Controllers
             this.transactionService = transactionService;
             this.accountService = accountService;
         }
-        public long Withdraw(string bankId, long accountId, decimal amount)
+        public long Withdraw(string bankId, string accountId, decimal amount)
         {
             long id = 0;
             try
             {
-                id = transactionService.AddTransaction(bankId, accountId, "", 0, amount,TransactionType.Debit);
+                id = transactionService.AddTransaction(bankId, accountId, "", "", amount,TransactionType.Debit);
             }
             catch (BalanceException)
             {
@@ -38,13 +38,13 @@ namespace SharpBank.CLI.Controllers
             }
             return id;
         }
-        public long Deposit(string bankId, long accountId, decimal amount)
+        public long Deposit(string bankId, string accountId, decimal amount)
         {
 
             long id = 0;
             try
             {
-                id = transactionService.AddTransaction("", 0, bankId, accountId, amount, TransactionType.Credit);
+                id = transactionService.AddTransaction("", "", bankId, accountId, amount, TransactionType.Credit);
             }
             catch (BalanceException)
             {
@@ -57,7 +57,7 @@ namespace SharpBank.CLI.Controllers
             }
             return id;
         }
-        public long Transfer(string sourceBankId, long sourceAccountId, string destinationBankId, long destinationAccountId, decimal amount)
+        public long Transfer(string sourceBankId, string sourceAccountId, string destinationBankId, string destinationAccountId, decimal amount)
         {
             long id = 0;
             try

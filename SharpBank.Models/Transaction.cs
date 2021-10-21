@@ -10,12 +10,13 @@ namespace SharpBank.Models
     public class Transaction
     {
         public long TransactionId { get; set; }
-        public long SourceAccountId { get; set; }
+        public string SourceAccountId { get; set; }
         public string SourceBankId { get; set; }
-        public long DestinationAccountId { get; set; }
+        public string DestinationAccountId { get; set; }
         public string DestinationBankId { get; set; }
         public decimal Amount { get; set; }
         public TransactionType Type { get; set; }
+        public Currency Currency { get; set; }
         public DateTime On { get; set; }
 
     }

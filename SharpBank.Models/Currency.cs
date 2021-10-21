@@ -10,5 +10,6 @@ namespace SharpBank.Models
     {
         public string Name { get; set; }
         public decimal ExchangeRate { get; set; }
+        public string Code { get; set; }
     }
 }

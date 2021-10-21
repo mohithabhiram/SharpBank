@@ -13,7 +13,7 @@ namespace SharpBank.CLI
         {
             int currentMenu = 0;
             string userBankId = "";
-            long userAccountId = 0;
+            string userAccountId = "";
 
             Inputs inputs = new Inputs();
             DataStore datastore = new DataStore();
@@ -42,7 +42,7 @@ namespace SharpBank.CLI
                     {
                         case LoginOptions.Create:
                             userAccountId= accountsController.CreateAccount(userBankId);
-                            Console.WriteLine("Your account number is " + userAccountId.ToString("D10"));
+                            Console.WriteLine("Your account number is " + userAccountId);
                             break;
                         case LoginOptions.Login:
                             userAccountId = inputs.GetAccountNumber();
@@ -75,7 +75,7 @@ namespace SharpBank.CLI
                             List<string> recp = inputs.GetRecipient();
                             amount = inputs.GetAmount();
                             //Account recipAcc = AccountsController.GetAccount();
-                            transactionsController.Transfer(userBankId, userAccountId, recp[0], Convert.ToInt64(recp[1]), amount);
+                            transactionsController.Transfer(userBankId, userAccountId, recp[0], recp[1], amount);
                             break;
                         case UserOptions.ShowBalance:
                             {
@@ -88,7 +88,7 @@ namespace SharpBank.CLI
                             Console.WriteLine("-----------------------------------------------------------------------------------------------------------");
                             foreach (Transaction t in tHist)
                             {
-                                Console.WriteLine($" {t.TransactionId.ToString("D10")} | {t.SourceBankId}  |   {t.SourceAccountId.ToString("D10")}   |   {t.DestinationBankId}  |  {t.DestinationAccountId.ToString("D10")}   | {t.Amount.ToString()} | {t.On}");
+                                Console.WriteLine($" {t.TransactionId.ToString("D10")} | {t.SourceBankId}  |   {t.SourceAccountId}   |   {t.DestinationBankId}  |  {t.DestinationAccountId}   | {t.Amount.ToString()} | {t.On}");
                             }
                             break;
                         case UserOptions.Exit:

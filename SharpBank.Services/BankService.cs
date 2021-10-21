@@ -16,17 +16,6 @@ namespace SharpBank.Services
             this.dataStore = datastore;
             datastore.Banks.Add(new Bank { BankId = "", Name = "", Accounts = new List<Account> { } });
         }
-        //public long GenerateId()
-        //{
-        //    Random rand = new Random();
-        //    long Id = rand.Next(); ;
-
-        //    while (dataStore.Banks.FirstOrDefault(b => b.BankId == Id) != null)
-        //    {
-        //        Id = rand.Next();
-        //    }
-        //    return Id;
-        //}
 
         public string GenerateBankId(string name)
         {
@@ -43,13 +32,18 @@ namespace SharpBank.Services
             }
             Bank bank = new Bank
             {
-                BankId = this.GenerateBankId(name),
+                BankId = GenerateBankId(name),
                 Name = name,
                 CreatedBy = "Mohith",
                 CreatedOn = DateTime.Now,
                 UpdatedBy = "Mohith",
                 UpdatedOn = DateTime.Now,
-                Accounts = new List<Account>()
+                Accounts = new List<Account>(),
+                Currencies = new List<Currency>(),
+                RTGSToSame = 0m,
+                IMPSToSame = 0.05m,
+                RTGSToOther = 0.02m,
+                IMPSToOther = 0.06m
             };
             dataStore.Banks.Add(bank);
             return bank.BankId;
@@ -58,6 +52,31 @@ namespace SharpBank.Services
         {
 
             return dataStore.Banks.SingleOrDefault(b => b.BankId == bankId);
+        }
+        public void UpdateServiceChargesForSameBank(string bankId, decimal RTGS, decimal IMPS)
+        {
+            Bank bank = GetBank(bankId);
+            bank.RTGSToSame = RTGS;
+            bank.IMPSToSame = IMPS;
+
+        }
+        public void UpdateServiceChargesForOtherBanks(string bankId, decimal RTGS, decimal IMPS)
+        {
+            Bank bank = GetBank(bankId);
+            bank.RTGSToOther = RTGS;
+            bank.IMPSToOther = IMPS;
+
+        }
+        public void AddCurrency(string bankId, string name, String code, decimal exchangeRate)
+        {
+            Bank bank = GetBank(bankId);
+            Currency currency = new Currency
+            {
+                Name = name,
+                Code = code,
+                ExchangeRate = exchangeRate,
+            };
+            bank.Currencies.Add(currency);
         }
 
 
