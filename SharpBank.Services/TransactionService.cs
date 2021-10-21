@@ -16,14 +16,14 @@ namespace SharpBank.Services
         {
             this.accountService = accountService;
         }
-        public long AddTransaction(string sourceBankId, long sourceAccountId, string destinationBankId, long destinationAccountId, decimal amount, TransactionType transactionType)
+        public string AddTransaction(string sourceBankId, string sourceAccountId, string destinationBankId, string destinationAccountId, decimal amount, TransactionType transactionType)
 
         {
-            if(transactionType == TransactionType.Debit)
+            if(transactionType == TransactionType.Withdraw)
             {
                 accountService.UpdateBalance(sourceBankId, sourceAccountId, accountService.GetAccount(sourceBankId, sourceAccountId).Balance - amount);
             }
-            else if(transactionType == TransactionType.Credit)
+            else if(transactionType == TransactionType.Deposit)
             {
                 accountService.UpdateBalance(destinationBankId, destinationAccountId, accountService.GetAccount(destinationBankId, destinationAccountId).Balance + amount);
             }
@@ -34,7 +34,7 @@ namespace SharpBank.Services
             }
             Transaction transaction = new Transaction
             {
-                TransactionId = GenerateId(sourceBankId, sourceAccountId, destinationBankId, destinationAccountId,transactionType),
+                TransactionId = GenerateTransactionId(sourceBankId, sourceAccountId, destinationBankId, destinationAccountId,transactionType),
                 SourceAccountId = sourceAccountId,
                 SourceBankId = sourceBankId,
                 DestinationAccountId = destinationAccountId,
@@ -43,25 +43,63 @@ namespace SharpBank.Services
                 Type = transactionType,
                 On = DateTime.Now
             };
-            accountService.GetAccount(sourceBankId, sourceAccountId).Transactions.Add(transaction);
-            accountService.GetAccount(destinationBankId, destinationAccountId).Transactions.Add(transaction);
+            if (transactionType == TransactionType.Deposit)
+            {
+                accountService.GetAccount(destinationBankId, destinationAccountId).Transactions.Add(transaction);
+            }
+            else if (transactionType == TransactionType.Withdraw)
+            {
+                accountService.GetAccount(sourceBankId, sourceAccountId).Transactions.Add(transaction);
+            }
+            else
+            {
+                accountService.GetAccount(sourceBankId, sourceAccountId).Transactions.Add(transaction);
+                accountService.GetAccount(destinationBankId, destinationAccountId).Transactions.Add(transaction);
+
+            }
             return transaction.TransactionId;
         }
-        public long GenerateId(string sourceBankId, long sourceAccountId, string destinationBankId, long destinationAccountId,TransactionType transactionType)
+        public string GenerateTransactionId(string sourceBankId, string sourceAccountId, string destinationBankId, string destinationAccountId,TransactionType transactionType)
         {
-            Random rand = new Random(123);
-            Account sourceAccount = accountService.GetAccount(sourceBankId, sourceAccountId);
-            Account destinationAccount = accountService.GetAccount(destinationBankId, destinationAccountId);
+            DateTime d = DateTime.Now;
+            string date = DateTime.Now.ToString("ddMMyy");
+            return "TXN"+sourceBankId+sourceAccountId+date;
+            //Random rand = new Random(123);
+            //Account sourceAccount = accountService.GetAccount(sourceBankId, sourceAccountId);
+            //Account destinationAccount = accountService.GetAccount(destinationBankId, destinationAccountId);
 
-            long Id;
-            do
-            {
-                Id = rand.Next();
-            }
+            //long Id;
+            //if(transactionType == TransactionType.Debit)
+            //{
+            //    do
+            //    {
+            //        Id = rand.Next();
+            //    }
+            //    while (sourceAccount.Transactions.SingleOrDefault(t => t.TransactionId == Id) != null);
+            //    return Id;
 
-            while ((sourceAccount.Transactions.SingleOrDefault(t => t.TransactionId == Id) != null) ||
-                (destinationAccount.Transactions.SingleOrDefault(t => t.TransactionId == Id) != null));
-            return Id;
+            //}
+            //else if(transactionType == TransactionType.Credit)
+            //{
+            //    do
+            //    {
+            //        Id = rand.Next();
+            //    }
+            //    while (destinationAccount.Transactions.SingleOrDefault(t => t.TransactionId == Id) != null);
+            //    return Id;
+
+            //}
+            //else
+            //{
+            //    do
+            //    {
+            //        Id = rand.Next();
+            //    }
+            //    while ((sourceAccount.Transactions.SingleOrDefault(t => t.TransactionId == Id) != null) ||
+            //    (destinationAccount.Transactions.SingleOrDefault(t => t.TransactionId == Id) != null));
+            //    return Id;
+
+            //}
 
         }
 
@@ -71,7 +109,7 @@ namespace SharpBank.Services
         //}
 
 
-        public Transaction GetTransaction(string bankId, long accountId, long TransactionId)
+        public Transaction GetTransaction(string bankId, string accountId, string TransactionId)
         {
             Account account = accountService.GetAccount(bankId, accountId);
             var transaction = account.Transactions.SingleOrDefault(t => t.TransactionId == TransactionId);

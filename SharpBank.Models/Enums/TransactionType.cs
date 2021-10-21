@@ -8,8 +8,8 @@ namespace SharpBank.Models.Enums
 {
     public enum TransactionType
     {
-        Credit = 1,
-        Debit,
+        Deposit = 1,
+        Withdraw,
         Transfer
     }
 }

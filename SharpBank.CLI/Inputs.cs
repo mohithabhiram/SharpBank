@@ -9,10 +9,10 @@ namespace SharpBank.CLI
 {
     public class Inputs
     {
-        public long GetAccountNumber()
+        public string GetAccountNumber()
         {
             Console.WriteLine("Please Enter Your Account Number :");
-            return Convert.ToInt64(Console.ReadLine());
+            return (Console.ReadLine());
         }
         public string GetPassword()
         {
