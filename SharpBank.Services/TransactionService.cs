@@ -50,7 +50,7 @@ namespace SharpBank.Services
             {
                 rateOfCharges = 0;
             }
-            amount = amount - (amount * rateOfCharges);
+            decimal totalCharges = amount * rateOfCharges;
             if(transactionType == TransactionType.Withdraw)
             {
                 accountService.UpdateBalance(sourceBankId, sourceAccountId, accountService.GetAccount(sourceBankId, sourceAccountId).Balance - amount);
@@ -61,7 +61,7 @@ namespace SharpBank.Services
             }
             else
             {
-                accountService.UpdateBalance(sourceBankId, sourceAccountId, accountService.GetAccount(sourceBankId, sourceAccountId).Balance - amount);
+                accountService.UpdateBalance(sourceBankId, sourceAccountId, accountService.GetAccount(sourceBankId, sourceAccountId).Balance - (amount + totalCharges));
                 accountService.UpdateBalance(destinationBankId, destinationAccountId, accountService.GetAccount(destinationBankId, destinationAccountId).Balance + amount);
             }
             Transaction transaction = new Transaction
