@@ -15,24 +15,14 @@ namespace SharpBank.Services
         public AccountService(BankService bankService)
         {
             this.bankService = bankService;
-            //Account acc = new Account
-            //{
-            //    Name = "",
-            //    Gender = Gender.Other,
-            //    AccountId = "",
-            //    BankId = "",
-            //    Balance = 0m,
-            //    Status = Status.Active,
-            //    Transactions = new List<Transaction>()
-            //};
-            //bankService.GetBank("").Accounts.Add(acc);
         }
-        public string AddAccount(String name, String password, string bankId, Gender gender)
+        public string AddAccount(String name, String password, string bankId, Gender gender, AccountType type)
         {
             Account account = new Account
             {
                 AccountId = GenerateAccountId(name),
                 BankId = bankId,
+                Type = type,
                 Name = name,
                 Password = password,
                 Balance = 0m,
@@ -43,19 +33,6 @@ namespace SharpBank.Services
             bankService.GetBank(bankId).Accounts.Add(account);
             return account.AccountId;
         }
-        //public string GenerateId(string bankId)
-        //{
-        //    Random rand = new Random(321);
-        //    Bank bank = bankService.GetBank(bankId);
-        //    string Id;
-        //    do
-        //    {
-        //        Id = rand.Next();
-        //    }
-
-        //    while (bank.Accounts.SingleOrDefault(a => a.AccountId == Id) != null);
-        //    return Id;
-        //}
         public string GenerateAccountId(string name)
         {
             DateTime d = DateTime.Now;

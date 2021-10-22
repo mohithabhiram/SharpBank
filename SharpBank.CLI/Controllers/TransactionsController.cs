@@ -25,7 +25,7 @@ namespace SharpBank.CLI.Controllers
             string id = "";
             try
             {
-                id = transactionService.AddTransaction(bankId, accountId, "", "", amount,TransactionType.Withdraw);
+                id = transactionService.AddTransaction(bankId, accountId, "", "", amount,TransactionType.Withdraw, TransactionMode.Standard);
             }
             catch (BalanceException)
             {
@@ -44,7 +44,7 @@ namespace SharpBank.CLI.Controllers
             string id = "";
             try
             {
-                id = transactionService.AddTransaction("", "", bankId, accountId, amount, TransactionType.Deposit);
+                id = transactionService.AddTransaction("", "", bankId, accountId, amount, TransactionType.Deposit, TransactionMode.Standard);
             }
             catch (BalanceException)
             {
@@ -57,12 +57,12 @@ namespace SharpBank.CLI.Controllers
             }
             return id;
         }
-        public string Transfer(string sourceBankId, string sourceAccountId, string destinationBankId, string destinationAccountId, decimal amount)
+        public string Transfer(string sourceBankId, string sourceAccountId, string destinationBankId, string destinationAccountId, decimal amount, TransactionMode transactionMode)
         {
             string id = "";
             try
             {
-                id = transactionService.AddTransaction(sourceBankId, sourceAccountId, destinationBankId, destinationAccountId, amount,TransactionType.Transfer);
+                id = transactionService.AddTransaction(sourceBankId, sourceAccountId, destinationBankId, destinationAccountId, amount, TransactionType.Transfer, transactionMode);
             }
             catch (BalanceException)
             {

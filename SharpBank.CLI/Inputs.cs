@@ -65,5 +65,19 @@ namespace SharpBank.CLI
             res.Add((Console.ReadLine()));
             return res;
         }
+        public TransactionMode GetTransactionMode()
+        {
+            Console.WriteLine("Enter Transaction Mode:\nRTGS\nIMPS");
+            string mode = Console.ReadLine();
+            Enum.TryParse(mode, out TransactionMode transactionMode);
+            return transactionMode;
+        }
+        public AccountType GetAccountType()
+        {
+            Console.WriteLine("Enter Account Type:\nUser\nBank Staff");
+            string type = Console.ReadLine();
+            Enum.TryParse(type, out AccountType accountType);
+            return accountType;
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace SharpBank.CLI
 
             BankService bankService = new BankService(datastore);
             AccountService accountService = new AccountService(bankService);
-            TransactionService transactionService = new TransactionService(accountService);
+            TransactionService transactionService = new TransactionService(accountService,bankService);
 
             BanksController banksController = new BanksController(bankService, inputs);
             AccountsController accountsController = new AccountsController(accountService, inputs);
@@ -74,8 +74,8 @@ namespace SharpBank.CLI
                         case UserOptions.Transfer:
                             List<string> recp = inputs.GetRecipient();
                             amount = inputs.GetAmount();
-                            //Account recipAcc = AccountsController.GetAccount();
-                            transactionsController.Transfer(userBankId, userAccountId, recp[0], recp[1], amount);
+                            TransactionMode transactionMode = inputs.GetTransactionMode();
+                            transactionsController.Transfer(userBankId, userAccountId, recp[0], recp[1], amount, transactionMode);
                             break;
                         case UserOptions.ShowBalance:
                             {
